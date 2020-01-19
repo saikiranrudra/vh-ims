@@ -50,8 +50,8 @@ route.post("/signin", async (req, res) => {
         const token = await jwt.sign(
           { id: result[0]._id, role: result[0].role },
           privateKey);
-        //result[0].token = token; 
-        await User.updateOne({ _id: result[0]._id }, { token: token });
+        result[0].token = token; 
+        await User.updateOne({ username: result[0].username }, { token });
         }
         res.status(200).json({
           status: "success",
