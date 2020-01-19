@@ -1,5 +1,5 @@
 # vh-ims
-backend for ims vadadora hackrhon
+backend for ims vadadora hackthon
 
 ## Requirement to setup
 1. Node js: https://nodejs.org/en/download/
