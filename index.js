@@ -1,16 +1,17 @@
-const express = require("express");
 const mongoose = require("mongoose");
+const express = require("express");
 const app = express();
 
 const products = require("./routes/Products");
 const auth = require("./routes/Auth");
 
 const port = process.env.PORT || 5000;
-const URI = process.env.DB_URI || "mongodb://localhost:27017/ims";
+const URI =
+  "mongodb+srv://vhims:vhmis@cluster0-d7vxg.mongodb.net/vhmis?retryWrites=true&w=majority";
 
 app.use(express.json());
 
-app.use("/api/v1/", auth);
+app.use("/api/v1/auth", auth);
 app.use("/api/v1/products", products);
 
 app.get("/", (req, res) => {
@@ -20,13 +21,23 @@ app.get("/", (req, res) => {
   });
 });
 
-mongoose.connect(
-  URI,
-  {
+mongoose
+  .connect(URI, {
+    useCreateIndex: true,
     useNewUrlParser: true,
+    useFindAndModify: false,
     useUnifiedTopology: true
-  },
-  () => console.log(`Connected to mongoose DB successfully...`)
-);
+
+  })
+  .then(con => console.log(`Connected to mongoose DB successfully...`))
+  .catch(e => console.log("DB ERROR : ",e));
+
+const db = mongoose.connection;
+
+if(!db) {
+  console.log("Error in Connecting DB");
+}else {
+  console.log("DB Connected Successfully");
+}
 
 app.listen(port, () => console.log(`App is listenning to port ${port}...`));
