@@ -48,7 +48,7 @@ route.post("/", auth, async (req, res) => {
     res.status(200).json({
       status: "success",
       data: {
-        product: newProduct
+        id: newProduct._id
       }
     });
   } catch (err) {
