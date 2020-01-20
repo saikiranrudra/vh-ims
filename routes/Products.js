@@ -29,9 +29,7 @@ route.get("/:id", async (req, res) => {
 
     res.status(200).json({
       status: "success",
-      data: {
-        product
-      }
+      data: product
     });
   } catch (err) {
     res.status(400).json({
@@ -49,7 +47,6 @@ route.post("/", auth, async (req, res) => {
 
     res.status(200).json({
       status: "success",
-      data: "Getting data from User : Add Product to datbase",
       data: {
         product: newProduct
       }
