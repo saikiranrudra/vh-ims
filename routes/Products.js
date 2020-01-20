@@ -1,23 +1,22 @@
+const uuid = require("uuid/v1");
 const route = require("express").Router();
 const Product = require("./../schema/productSchema");
 
 //DISPLAY ALL PRODUCT
-
 route.get("/", async (req, res) => {
   try {
     const product = await Product.find();
 
-    res.staus(200).json({
+    res.status(200).json({
       status: "success",
-      message: "Sending data from server : Display All product",
       data: {
         product
       }
     });
   } catch (err) {
     res.status(400).json({
-      status: "failed",
-      message: "Something went wrong"
+      status: "failure",
+      data: { message: " Something went wrong" }
     });
   }
 });
@@ -29,15 +28,14 @@ route.get("/:id", async (req, res) => {
 
     res.status(200).json({
       status: "success",
-      message: "Sending data from server : Display Product by id",
       data: {
         product
       }
     });
   } catch (err) {
     res.status(400).json({
-      status: "Failed",
-      message: " Something weth wrong"
+      status: "failure",
+      data: { message: " Something went wrong" }
     });
   }
 });
@@ -45,60 +43,83 @@ route.get("/:id", async (req, res) => {
 //ADD PRODUCT TO DATABASE
 route.post("/", async (req, res) => {
   try {
-    const newProduct = await Product.create(req.body);
+    const newProduct = new Product(req.body);
+    await newProduct.save();
 
     res.status(200).json({
-      status: "Success",
-      message: "Getting data from User : Add Product to datbase",
+      status: "success",
+      data: "Getting data from User : Add Product to datbase",
       data: {
         product: newProduct
       }
     });
   } catch (err) {
     res.status(400).json({
-      status: "Failed",
-      message: " Something weth wrong"
+      status: "failure",
+      data: { message: " Something went wrong" }
     });
   }
 });
 
 //UPDATE DETAILS
-route.put("/:id", async (req, res) => {
+route.put("/", async (req, res) => {
   try {
-    const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
+    const product = await Product.findByIdAndUpdate(req.body.id, req.body, {
       new: true,
       runValidators: true
     });
 
     res.status(200).json({
-      status: "sucess",
-      message: "Update product : *Change detail *Mark project as sell",
+      status: "success",
       data: {
         product
       }
     });
   } catch (err) {
     res.status(400).json({
-      status: "Failed",
-      message: " Something weth wrong"
+      status: "failure",
+      data: { message: " Something went wrong" }
+    });
+  }
+});
+
+//DISPATCH
+route.put("/dispatch", async (req, res) => {
+  try {
+    const result = await Product.findByIdAndUpdate(req.body.id, {
+      dispatched: true,
+      dispatchedID: toString(uuid()),
+      dispatchDate: Date.now()
+    });
+    res.status(200).json({
+      status: "success",
+      data: {
+        result
+      }
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "failure",
+      data: { message: err.message }
     });
   }
 });
 
 //DELETE THE PRODUCT
-route.delete("/:id", async (req, res) => {
+route.delete("/", async (req, res) => {
   try {
-    const product = await Product.findByIdAndDelete(req.params.id);
+    const product = await Product.findByIdAndDelete(req.body.id);
 
     res.status(204).json({
-      stattus: "Success",
-      message: "Delete Product : Delete peoduct by id",
-      data: null
+      status: "success",
+      data: {
+        message: "Product Deleted"
+      }
     });
   } catch (err) {
     res.status(400).json({
-      status: "Failed",
-      message: " Something weth wrong"
+      status: "failure",
+      data: { message: " Something went wrong" }
     });
   }
 });
