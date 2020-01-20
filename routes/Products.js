@@ -23,7 +23,7 @@ route.get("/", auth, async (req, res) => {
 });
 
 //DISLAY PRODUCT BY ID
-route.get("/:id", auth, async (req, res) => {
+route.get("/:id", async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
 
