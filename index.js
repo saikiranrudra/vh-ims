@@ -1,12 +1,14 @@
-const express = require("express");
 const mongoose = require("mongoose");
+const express = require("express");
 const app = express();
 
 const products = require("./routes/Products");
 const auth = require("./routes/Auth");
 
 const port = process.env.PORT || 5000;
-const URI = process.env.DB_URI || "mongodb+srv://shrey.apple139@gmail.com:abc@123456@cluster0-d7vxg.mongodb.net/test?retryWrites=true&w=majority";
+
+const URI =
+  "mongodb+srv://vhims:vhmis@cluster0-d7vxg.mongodb.net/vhmis?retryWrites=true&w=majority";
 
 app.use(express.json());
 
@@ -20,13 +22,23 @@ app.get("/", (req, res) => {
   });
 });
 
-mongoose.connect(
-  URI,
-  {
+mongoose
+  .connect(URI, {
+    useCreateIndex: true,
     useNewUrlParser: true,
+    useFindAndModify: false,
     useUnifiedTopology: true
-  },
-  () => console.log(`Connected to mongoose DB successfully...`)
-);
+
+  })
+  .then(con => console.log(`Connected to mongoose DB successfully...`))
+  .catch(e => console.log("DB ERROR : ",e));
+
+const db = mongoose.connection;
+
+if(!db) {
+  console.log("Error in Connecting DB");
+}else {
+  console.log("DB Connected Successfully");
+}
 
 app.listen(port, () => console.log(`App is listenning to port ${port}...`));

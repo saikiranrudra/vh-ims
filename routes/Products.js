@@ -1,9 +1,10 @@
 const uuid = require("uuid/v1");
 const route = require("express").Router();
 const Product = require("./../schema/productSchema");
+const auth = require("./../middlewares/Auth");
 
 //DISPLAY ALL PRODUCT
-route.get("/", async (req, res) => {
+route.get("/", auth, async (req, res) => {
   try {
     const product = await Product.find();
 
@@ -22,7 +23,7 @@ route.get("/", async (req, res) => {
 });
 
 //DISLAY PRODUCT BY ID
-route.get("/:id", async (req, res) => {
+route.get("/:id", auth, async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
 
@@ -41,7 +42,7 @@ route.get("/:id", async (req, res) => {
 });
 
 //ADD PRODUCT TO DATABASE
-route.post("/", async (req, res) => {
+route.post("/", auth, async (req, res) => {
   try {
     const newProduct = new Product(req.body);
     await newProduct.save();
@@ -62,7 +63,7 @@ route.post("/", async (req, res) => {
 });
 
 //UPDATE DETAILS
-route.put("/", async (req, res) => {
+route.put("/", auth, async (req, res) => {
   try {
     const product = await Product.findByIdAndUpdate(req.body.id, req.body, {
       new: true,
@@ -84,13 +85,15 @@ route.put("/", async (req, res) => {
 });
 
 //DISPATCH
-route.put("/dispatch", async (req, res) => {
+route.put("/dispatch", auth, async (req, res) => {
   try {
+    const id = uuid();
     const result = await Product.findByIdAndUpdate(req.body.id, {
       dispatched: true,
-      dispatchedID: toString(uuid()),
+      dispatchedID: toString(id),
       dispatchDate: Date.now()
     });
+
     res.status(200).json({
       status: "success",
       data: {
@@ -106,7 +109,7 @@ route.put("/dispatch", async (req, res) => {
 });
 
 //DELETE THE PRODUCT
-route.delete("/", async (req, res) => {
+route.delete("/", auth, async (req, res) => {
   try {
     const product = await Product.findByIdAndDelete(req.body.id);
 
