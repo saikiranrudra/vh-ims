@@ -4,16 +4,17 @@ const app = express();
 
 const products = require("./routes/Products");
 const auth = require("./routes/Auth");
-
+const stats = require("./routes/Stats");
 const port = process.env.PORT || 5000;
 
-const URI =
-  "mongodb+srv://vhims:vhmis@cluster0-d7vxg.mongodb.net/vhmis?retryWrites=true&w=majority";
-
+// const URI =
+//   "mongodb+srv://vhims:vhmis@cluster0-d7vxg.mongodb.net/vhmis?retryWrites=true&w=majority";
+const URI = "mongodb://localhost:27017/ims";
 app.use(express.json());
 
 app.use("/api/v1/auth", auth);
 app.use("/api/v1/products", products);
+app.use("/api/v1/stats", stats);
 
 app.get("/", (req, res) => {
   res.status(200).json({
