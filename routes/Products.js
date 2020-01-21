@@ -87,12 +87,11 @@ route.put("/", auth, async (req, res) => {
 route.put("/dispatch", auth, async (req, res) => {
   try {
     const id = uuid();
-    const result = await Product.updateOne({_id: req.body.id}, {
+    const result = await Product.findByIdAndUpdate(req.body.id, {
       dispatched: true,
       dispatchedID: id.toString(),
       dispatchDate: Date.now()
     });
-    console.log(id.toString());
 
     res.status(200).json({
       status: "success",
