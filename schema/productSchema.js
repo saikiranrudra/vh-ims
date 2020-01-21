@@ -20,8 +20,16 @@ const productSchema = new mongoose.Schema({
     required: true,
     default: false
   },
-  dispatchedID: String,
-  quantity: Number,
+  dispatchedID: {
+    type: String,
+    required: true,
+    default: null
+  },
+  quantity: {
+    type: Number,
+    required: true,
+    default: 0
+  },
   type: String
 });
 
