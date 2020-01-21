@@ -13,14 +13,14 @@ const thirtyDays = 30 * 24 * 60 * 60 * 1000;
 
 route.post("/", auth, async (req, res) => {
   try {
-    
+
 
     const dispachedToday = await Products.find({
       dispatchDate: Date.now()
     });
 
     const expiringProducts = await Products.find({
-      expiryDate: Date.now() + thirtyDays
+      expiryDate: { $lte: (Date.now() + thirtyDays)}
     });
 
     const noOfProducts = await Products.count({});
@@ -32,10 +32,10 @@ route.post("/", auth, async (req, res) => {
     res.status(200).json({
       status: "success",
       data: {
-        dispachedToday: dispachedToday.length === 0 ? null : dispachedToday,
-        expiringProducts: expiringProducts.length === 0 ? null : dispachedToday,
+        dispachedToday: dispachedToday,
+        expiringProducts: expiringProducts,
         noOfProducts: noOfProducts,
-        lowStockProduct: lowStockProduct.length === 0 ? null : dispachedToday
+        lowStockProduct: lowStockProduct
       }
     });
   } catch (err) {
