@@ -22,7 +22,6 @@ const productSchema = new mongoose.Schema({
   },
   dispatchedID: {
     type: String,
-    required: true,
     default: null
   },
   quantity: {
@@ -30,7 +29,6 @@ const productSchema = new mongoose.Schema({
     required: true,
     default: 0
   },
-  type: String
 });
 
 const Product = mongoose.model("Product", productSchema);
