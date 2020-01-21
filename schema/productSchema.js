@@ -15,7 +15,11 @@ const productSchema = new mongoose.Schema({
     type: Date,
     required: [true, "A Product must have a expiry date"]
   },
-  dispatched: Boolean,
+  dispatched: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
   dispatchedID: String,
   quantity: Number,
   type: String
