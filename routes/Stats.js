@@ -32,10 +32,10 @@ route.post("/", auth, async (req, res) => {
     res.status(200).json({
       status: "success",
       data: {
-        dispachedToday: dispachedToday,
-        expiringProducts: expiringProducts,
+        dispachedToday: dispachedToday.length,
+        expiringProducts: expiringProducts.length,
         noOfProducts: noOfProducts,
-        lowStockProduct: lowStockProduct
+        lowStockProduct: lowStockProduct.length
       }
     });
   } catch (err) {
