@@ -6,7 +6,9 @@ const auth = require("./../middlewares/Auth");
 //DISPLAY ALL PRODUCT
 route.get("/", auth, async (req, res) => {
   try {
-    const product = await Product.find();
+    const product = await Product.find({
+      dispatched: false
+    });
 
     res.status(200).json({
       status: "success",
