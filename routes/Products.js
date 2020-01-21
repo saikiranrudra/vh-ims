@@ -17,7 +17,7 @@ route.get("/", auth, async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: "failure",
-      data: { message: " Something went wrong" }
+      data: { message: err.message }
     });
   }
 });
@@ -34,7 +34,7 @@ route.get("/:id", async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: "failure",
-      data: { message: " Something went wrong" }
+      data: { message: err.message }
     });
   }
 });
@@ -54,7 +54,7 @@ route.post("/", auth, async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: "failure",
-      data: { message: " Something went wrong" }
+      data: { message: err.message }
     });
   }
 });
@@ -76,7 +76,7 @@ route.put("/", auth, async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: "failure",
-      data: { message: " Something went wrong" }
+      data: { message: err.message }
     });
   }
 });
@@ -119,7 +119,7 @@ route.delete("/", auth, async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: "failure",
-      data: { message: " Something went wrong" }
+      data: { message: err.message }
     });
   }
 });

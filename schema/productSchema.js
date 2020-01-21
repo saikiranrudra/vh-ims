@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const User = require("../models/Users");
+const crypto = require('crypto');
 
 const productSchema = new mongoose.Schema({
   productName: { type: String, required: [true, "A Product must have a Name"], unique: true },
@@ -33,5 +35,19 @@ const Product = mongoose.model("Product", productSchema);
 // testProduct.save().then(doc => {
 //     console.log(doc)
 // });
+
+//***Creation of admin id password execute only once */
+// const salt = process.env.SALT || 'encryptsalt';
+// const hash = crypto.pbkdf2Sync("admin", salt, 8, 12, 'sha256');
+
+// const admin = new User({
+//   name: "admin",
+//   mobileNumber: "0000000000",
+//   username: "admin",
+//   password: hash,
+//   role: "admin"
+// });
+
+// admin.save().then((res) => console.log(res));
 
 module.exports = Product;

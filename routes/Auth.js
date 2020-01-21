@@ -6,7 +6,7 @@ const crypto = require('crypto');
 const privateKey = process.env.PRIVATE_KEY || "vh-ims";
 const salt = process.env.SALT || 'encryptsalt';
 route.post("/signup", async (req, res) => {
-  const hash = await crypto.pbkdf2Sync(req.body.password, salt, 8, 12, 'sha256');
+  const hash = crypto.pbkdf2Sync(req.body.password, salt, 8, 12, 'sha256');
   const user = new User({
     name: req.body.name,
     mobileNumber: req.body.phoneNumber,
