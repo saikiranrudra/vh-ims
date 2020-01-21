@@ -11,8 +11,10 @@ const auth = require("../middlewares/Auth");
 
 const thirtyDays = 30 * 24 * 60 * 60 * 1000;
 
-route.get("/", auth, async (req, res) => {
+route.post("/", auth, async (req, res) => {
   try {
+    
+
     const dispachedToday = await Products.find({
       dispatchDate: Date.now()
     });
